@@ -4,7 +4,7 @@ import { useOrders } from '@/contexts/Orders.context'
 import { Order } from '@/dtos/Order.dto'
 
 export default function Kanban() {
-  const { orders, changeOrderState, pickup } = useOrders()
+  const { orders, changeOrderState } = useOrders()
 
   return (
     <section className={s['pk-kanban']}>

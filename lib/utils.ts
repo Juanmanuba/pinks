@@ -1,4 +1,5 @@
 import { Item } from '@/dtos/Item.dto'
+import { Order } from '@/dtos/Order.dto'
 
 export function getRandomId() {
   const length = 5
@@ -38,4 +39,28 @@ export function getItemCounts(items: Item[]) {
     }
   }
   return itemCounts
+}
+
+export function getNextState(state: Order['state']) {
+  switch (state) {
+    case 'PENDING':
+      return 'IN_PROGRESS'
+    case 'IN_PROGRESS':
+      return 'READY'
+    case 'READY':
+      return 'DELIVERED'
+    default:
+      return 'DELIVERED'
+  }
+}
+
+export function getPreviousState(state: Order['state']) {
+  switch (state) {
+    case 'IN_PROGRESS':
+      return 'PENDING'
+    case 'READY':
+      return 'IN_PROGRESS'
+    default:
+      return 'PENDING'
+  }
 }

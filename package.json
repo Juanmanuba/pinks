@@ -17,6 +17,8 @@
     "classnames": "^2.5.1",
     "next": "14.2.3",
     "react": "^18",
+    "react-confirm": "^0.3.0-7",
+    "react-confirm-alert": "^3.0.6",
     "react-dom": "^18",
     "sass": "^1.76.0"
   },

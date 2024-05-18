@@ -12,8 +12,7 @@ export type OrdersContextProps = {
   orders: Array<Order>
   setOrders: (orders: Array<Order>) => void
   changeOrderState: (order: Order, state: string) => void
-  cleanup: () => void
-  pickup: (order: Order) => void
+  pickup: (order?: Order) => void
 }
 
 export const OrdersContext = createContext<OrdersContextProps>(
@@ -38,10 +37,6 @@ export function OrdersProvider(props: OrdersProviderProps) {
     setOrders(newOrders as Order[])
   }
 
-  const cleanup = () => {
-    setOrders([])
-  }
-
   useEffect(() => {
     const orderOrchestrator = new OrderOrchestrator()
     const listener = orderOrchestrator.run()
@@ -50,10 +45,11 @@ export function OrdersProvider(props: OrdersProviderProps) {
     })
   }, [])
 
-  const pickup = (order: Order) => {
-    alert(
-      'necesitamos eliminar del kanban a la orden recogida! Rapido! antes que nuestra gente de tienda se confunda!'
-    )
+  const pickup = (order?: Order) => {
+    if (order?.state === 'DELIVERED') {
+      const newOrders = orders.filter((o) => o.id !== order.id)
+      setOrders(newOrders)
+    }
   }
 
   const context = {
@@ -61,7 +57,6 @@ export function OrdersProvider(props: OrdersProviderProps) {
     setOrders,
     changeOrderState,
     pickup,
-    cleanup,
   }
 
   return (

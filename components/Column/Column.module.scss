@@ -33,7 +33,6 @@
   gap: 12px;
   height: 140px;
   padding: 15px;
-  padding-left: 30px;
   cursor: pointer;
   &:hover {
     transform: scale(0.99);
@@ -42,20 +41,20 @@
 }
 
 .pk-card-content {
+  min-height: 80px;
   display: flex;
-  gap: 50px;
-}
-.pk-order-items {
-  min-width: 145px;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
+  height: max-content;
 }
 
-.pk-moving-buttons {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-end;
-  right: 0;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 25px;
+.pk-card-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
