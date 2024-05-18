@@ -2,7 +2,6 @@ import { Order } from '@/dtos/Order.dto'
 import { EventEmitter } from 'events'
 import { getRandomId, getRandomInterval, getRandomItems } from './utils'
 import { Item } from '@/dtos/Item.dto'
-import { get } from 'http'
 
 export class OrderOrchestrator {
   private interval: NodeJS.Timeout | undefined

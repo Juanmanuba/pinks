@@ -13,7 +13,6 @@ import { Order } from '@/dtos/Order.dto'
 export type RidersContextProps = {
   riders: Array<Rider>
   setRiders: (riders: Array<Rider>) => void
-  sendAway: boolean
   sendRiderAway: (order: Order) => void
 }
 
@@ -28,7 +27,6 @@ export type RidersProviderProps = {
 
 export function RidersProvider(props: RidersProviderProps) {
   const [riders, setRiders] = useState<Array<Rider>>([])
-  const [sendAway, setSendAway] = useState<boolean>(false)
   const [assignedOrders, setAssignedOrders] = useState<string[]>([])
   const { orders, pickup } = useOrders()
 
@@ -51,17 +49,15 @@ export function RidersProvider(props: RidersProviderProps) {
   function sendRiderAway(order: Order) {
     const rider = riders.find((rider) => rider.orderWanted === order.id)
 
-    setSendAway(false)
     if (rider) {
       rider.pickup(order)
       setRiders((prev) =>
         prev.filter((r) => r.orderWanted !== rider.orderWanted)
       )
-      setSendAway(true)
     }
   }
 
-  const context = { riders, setRiders, sendRiderAway, sendAway }
+  const context = { riders, setRiders, sendRiderAway }
   return (
     <RidersContext.Provider value={context}>
       {props.children}

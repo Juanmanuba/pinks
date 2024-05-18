@@ -7,11 +7,11 @@ import {
   faCircleRight,
 } from '@fortawesome/free-regular-svg-icons'
 import { useRiders } from '@/contexts/Riders.context'
+import { useOrders } from '@/contexts/Orders.context'
 
 export type ColumnProps = {
   orders: Array<Order>
   title: string
-  moveCard: (order: Order, state: Order['state']) => void
 }
 
 function printItems(order: Order) {
@@ -25,8 +25,22 @@ function printItems(order: Order) {
   ))
 }
 
-export default function Column({ title, orders, moveCard }: ColumnProps) {
-  const { sendRiderAway } = useRiders()
+export default function Column({ title, orders }: ColumnProps) {
+  const { riders, sendRiderAway } = useRiders()
+  const { changeOrderState } = useOrders()
+
+  function handleForwardButtonClick(order: Order) {
+    const requiredRider = riders.find((rider) => rider.orderWanted === order.id)
+
+    if (order.state !== 'READY')
+      changeOrderState(order, getNextState(order.state))
+    else if (!requiredRider) alert('No ha llegado el conductor asignado')
+    else if (window.confirm('¿Entregar pedido al rider?')) {
+      changeOrderState(order, getNextState(order.state))
+      sendRiderAway(order)
+    }
+  }
+
   return (
     <div className={s['pk-column']}>
       <div className={s['pk-column__title']}>
@@ -42,7 +56,9 @@ export default function Column({ title, orders, moveCard }: ColumnProps) {
             </div>
             <div className={s['pk-card-content']}>
               <FontAwesomeIcon
-                onClick={() => moveCard(order, getPreviousState(order.state))}
+                onClick={() =>
+                  changeOrderState(order, getPreviousState(order.state))
+                }
                 className="fa-2xl"
                 icon={faCircleLeft}
               />
@@ -50,20 +66,7 @@ export default function Column({ title, orders, moveCard }: ColumnProps) {
               <div className={s['pk-order-items']}>{printItems(order)}</div>
 
               <FontAwesomeIcon
-                onClick={() => {
-                  if (order.state !== 'READY') {
-                    {
-                      moveCard(order, getNextState(order.state))
-                    }
-                  } else if (
-                    window.confirm(
-                      '¿Está seguro de que desea marcar la orden como entregada al conductor?'
-                    )
-                  ) {
-                    moveCard(order, getNextState(order.state))
-                    sendRiderAway(order)
-                  }
-                }}
+                onClick={() => handleForwardButtonClick(order)}
                 className="fa-2xl"
                 icon={faCircleRight}
               />
