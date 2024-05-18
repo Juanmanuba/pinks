@@ -16,7 +16,7 @@ export function getRandomInterval(min: number, max: number) {
 }
 
 export function getRandomItem() {
-  const items = ['Bebida', 'Hamburguesa', 'Hamburguesa secreta', 'Patatas']
+  const items = ['Bebida', 'Hamburguesa', 'Patatas']
   const randomIndex = getRandomInterval(0, items.length - 1)
   return items[randomIndex]
 }

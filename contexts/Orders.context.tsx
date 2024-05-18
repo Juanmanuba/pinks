@@ -10,6 +10,9 @@ import {
 
 export type OrdersContextProps = {
   orders: Array<Order>
+  setOrders: (orders: Array<Order>) => void
+  changeOrderState: (order: Order, state: string) => void
+  cleanup: () => void
   pickup: (order: Order) => void
 }
 
@@ -55,7 +58,10 @@ export function OrdersProvider(props: OrdersProviderProps) {
 
   const context = {
     orders,
+    setOrders,
+    changeOrderState,
     pickup,
+    cleanup,
   }
 
   return (
